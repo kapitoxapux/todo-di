@@ -1,0 +1,7 @@
+.table>:not(caption)>*>* {
+    vertical-align: middle;
+}
+
+.text-error {
+    color: red;
+}

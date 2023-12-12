@@ -1,0 +1,30 @@
+{
+    "name": "karrux-pc/todo-di",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/app"
+        },
+        "files": [
+            "src/app/Entities/Db.php",
+            "src/app/Entities/User.php",
+            "src/app/Entities/Task.php",
+            "src/app/Entities/View.php",
+            "src/app/Repositories/UserRepository.php",
+            "src/app/Repositories/TaskRepository.php",
+            "src/app/Controllers/UserController.php",
+            "src/app/Controllers/TaskController.php",
+            "src/app/Containers/Container.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "aserpuhovitin",
+            "email": "kapitoxapux@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/routing": "^4.4",
+        "twig/twig": "^2.0"
+    }
+}
