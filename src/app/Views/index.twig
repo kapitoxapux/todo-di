@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>ToDo List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="public/css/style.css" rel="stylesheet">
+</head>
+<body>
+
+    <section class="vh-100">
+        <div class="container-fluid py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-lg-10 col-xl-11">
+                    <div class="card rounded-3">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-end">
+                                {% if authorized and task.status == 0 %}
+                                    <a class="btn btn-danger" href="/logout" role="button">Выйти</a>
+                                {% else %}
+                                    <a class="btn btn-light" href="/login" role="button">Авторизоваться</a>
+                                {% endif %}
+                            </div>
+                            
+                            <h1 class="text-center my-3 pb-3">Задачник</h4>
+
+                            <form class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2" action="/create" method="get" name="createForm" enctype="multipart/form-data" accept-charset="UTF-8" autocomplete="off">
+                                <div class="col-2">
+                                    <div class="form-outline d-flex">
+                                        <input type="text" name="name" id="name" class="form-control" placeholder="Имя..." required/>
+                                        <label class="form-label" for="name"></label>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-outline d-flex">
+                                        <input type="email" name="email" id="email" class="form-control" placeholder="Почта..." required/>
+                                        <label class="form-label" for="email"></label>
+                                    </div>
+                                </div>
+                                <div class="col-7">
+                                    <div class="form-outline d-flex">
+                                        <input type="text" name="task" id="task" class="form-control" placeholder="Описание задачи..." required/>
+                                        <label class="form-label" for="task"></label>
+                                    </div>
+                                </div>
+                                <div class="col-1 d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary">Создать</button>
+                                </div>
+                            </form>
+
+                            <table class="table mb-4">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No.</th>
+                                        <th scope="col">Имя <a class="" href="?page={{current_page}}&sort=name&order={% if order == 'ASC' %}DESC{% else %}ASC{% endif %}">{% if order=='ASC' and sort=='name' %}&uarr;{% else %}&darr;{% endif %}</a></th>
+                                        <th scope="col">Почта <a class="" href="?page={{current_page}}&sort=email&order={% if order == 'ASC' %}DESC{% else %}ASC{% endif %}">{% if order=='ASC' and sort=='email' %}&uarr;{% else %}&darr;{% endif %}</a></th>
+                                        <th scope="col">Текст</th>
+                                        <th scope="col">Статус <a class="" href="?page={{current_page}}&sort=status&order={% if order == 'ASC' %}DESC{% else %}ASC{% endif %}">{% if order=='ASC' and sort=='status' %}&uarr;{% else %}&darr;{% endif %}</a></th>
+                                        <th scope="col">Экшн</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for task in data %}
+                                        <tr>
+                                            <th scope="row">{{task.id}}</th>
+                                            <td>{{ task.name }}</td>
+                                            <td>{{ task.email }}</td>
+                                            <td>
+                                                {% if authorized %}
+                                                    <form class="row row-cols-lg-auto g-3 justify-content-center align-items-center m-0 pb-2" action="/change" method="get" id="form-{{task.id}}" name="form-{{task.id}}" enctype="multipart/form-data" accept-charset="UTF-8" autocomplete="off">
+                                                        <input type="hidden" name="id" value="{{ task.id }}"/>
+                                                        <div class="form-outline d-flex">
+                                                            <input type="text" name="task" id="task-{{task.id}}" class="form-control" placeholder="Задание..." value="{{ task.text }}"/>
+                                                        </div>
+                                                    </form>
+                                                {% else %}
+                                                    {{ task.text }}
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if task.status == 1 %}
+                                                    <button type="button" class="btn btn-success ms-1" disabled>выполнено</button>
+                                                {% endif %}
+                                                {% if task.changed == 1 %}
+                                                    <button type="button" class="btn btn-success ms-1" disabled>отрдактировано администратором</button>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if authorized and task.status == 0 %}
+                                                    <a href="/update?id={{task.id}}" class="btn btn-info" role="button">Завершить</a>
+                                                {% endif %}
+                                                {% if authorized %}
+                                                    <input type="submit" form="form-{{task.id}}" class="btn btn-primary ms-1" value="Сохранить">
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <nav aria-label="Page navigation example" class="d-flex justify-content-center">
+                            <ul class="pagination">
+                                {% if current_page > 1 %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{current_page-1}}&sort={{sort}}&order={{order}}" role="button">Назад</a>
+                                    </li>
+                                {% endif %}
+                                <li class="page-item active">
+                                    <a class="page-link" href="?page={{current_page}}&sort={{sort}}&order={{order}}" role="button">{{current_page}}</a>
+                                </li>
+                                {% if pages > 1 and current_page * 3 < tasks %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{current_page+1}}&sort={{sort}}&order={{order}}" role="button">Вперед</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</body>
+</html>
