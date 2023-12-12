@@ -68,8 +68,19 @@ class TaskController
             $this->repository->setTask($name, $email, $text);
         }
 
-        header('Location: /', true, 303);
+        header('Location: /message', true, 303);
         die();
+    }
+
+    private function message()
+    {
+
+        print $this->view->render(
+            'message.twig',
+            [
+                'message' => 'Запись успешно создана!'
+            ]
+        );
     }
 
     private function update(Request $request)
@@ -158,6 +169,11 @@ class TaskController
                 } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
+
+                break;
+            case "message":
+
+                $this->message();
 
                 break;
             case "update":
