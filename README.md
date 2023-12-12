@@ -1,4 +1,4 @@
-# todo-di
+# todo-di (DependencyInjection)
 
 Суть проекта
 
