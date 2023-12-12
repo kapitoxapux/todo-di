@@ -108,36 +108,43 @@ class TaskController
     private function change(Request $request)
     {
         session_start();
-        $id = filter_var($request->get("id", FILTER_SANITIZE_NUMBER_INT));
-        $text = filter_var($request->get("task", FILTER_SANITIZE_STRING));
 
-        $this->repository->changeTask($id, $text);
+        if ($_SESSION['auth']) {
+            $id = filter_var($request->get("id", FILTER_SANITIZE_NUMBER_INT));
+            $text = filter_var($request->get("task", FILTER_SANITIZE_STRING));
 
-        $limit = 3;
-        $offset = $request->get('page') > 0 ? ((int) $request->get('page') - 1) * $limit : 0;
-        $sort = $request->get('sort') ?? 'name';
-        $order = $request->get('order') ?? 'ASC';
+            $this->repository->changeTask($id, $text);
 
-        $currentPage = $request->get('page') ?? 1;
-        $tasks = $this->repository->getAll();
+            $limit = 3;
+            $offset = $request->get('page') > 0 ? ((int) $request->get('page') - 1) * $limit : 0;
+            $sort = $request->get('sort') ?? 'name';
+            $order = $request->get('order') ?? 'ASC';
 
-        $data = $this->repository->getData($sort, $order, $limit, $offset);
-        if (empty($data)) {
-            throw new \Exception('Задача не найдена!');
+            $currentPage = $request->get('page') ?? 1;
+            $tasks = $this->repository->getAll();
+
+            $data = $this->repository->getData($sort, $order, $limit, $offset);
+            if (empty($data)) {
+                throw new \Exception('Задача не найдена!');
+            }
+
+            print $this->view->render(
+                'index.twig',
+                [
+                    'authorized' => isset($_SESSION['auth']),
+                    'data' => $data,
+                    'tasks' => $tasks,
+                    'pages' => ceil($tasks / $limit),
+                    'current_page' => $currentPage,
+                    'sort' => $sort,
+                    'order' => $order
+                ]
+            );
+        } else {
+            header('Location: /login', true, 303);
+            die();
         }
 
-        print $this->view->render(
-            'index.twig',
-            [
-                'authorized' => isset($_SESSION['auth']),
-                'data' => $data,
-                'tasks' => $tasks,
-                'pages' => ceil($tasks / $limit),
-                'current_page' => $currentPage,
-                'sort' => $sort,
-                'order' => $order
-            ]
-        );
     }
 
     public function handler(Request $request, string $action)
