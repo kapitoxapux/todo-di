@@ -14,6 +14,10 @@ $routes = [
         'controller' => App\Controllers\TaskController::class,
         'action' => 'create'
     ],
+    '/message' => [
+        'controller' => App\Controllers\TaskController::class,
+        'action' => 'message'
+    ],
     '/update' => [
         'controller' => App\Controllers\TaskController::class,
         'action' => 'update'
