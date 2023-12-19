@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController
 {
 
-    private $repository;
-    private $view;
+    private UserRepository $repository;
+    private View $view;
 
     public function __construct(
         UserRepository $repository,

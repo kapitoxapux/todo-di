@@ -1,6 +1,6 @@
 <?php
 
-namespace src\app\Containers;
+namespace App\Containers;
 
 class Container
 {

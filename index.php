@@ -5,38 +5,40 @@ require __DIR__ . '/vendor/autoload.php';
 use App\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Controllers\TaskController;
+use App\Controllers\UserController;
 
 $routes = [
     '/' => [
-        'controller' => App\Controllers\TaskController::class,
+        'controller' => TaskController::class,
         'action' => 'index'
     ],
     '/create' => [
-        'controller' => App\Controllers\TaskController::class,
+        'controller' => TaskController::class,
         'action' => 'create'
     ],
     '/message' => [
-        'controller' => App\Controllers\TaskController::class,
+        'controller' => TaskController::class,
         'action' => 'message'
     ],
     '/update' => [
-        'controller' => App\Controllers\TaskController::class,
+        'controller' => TaskController::class,
         'action' => 'update'
     ],
     '/change' => [
-        'controller' => App\Controllers\TaskController::class,
+        'controller' => TaskController::class,
         'action' => 'change'
     ],
     '/login' => [
-        'controller' => App\Controllers\UserController::class,
+        'controller' => UserController::class,
         'action' => 'index'
     ],
     '/logout' => [
-        'controller' => App\Controllers\UserController::class,
+        'controller' => UserController::class,
         'action' => 'logout'
     ],
     '/auth' => [
-        'controller' => App\Controllers\UserController::class,
+        'controller' => UserController::class,
         'action' => 'login'
     ],
 ];
@@ -47,12 +49,7 @@ $path = $request->getPathInfo();
 if (!isset($routes[$path])) {
     $response = new Response('Not Found', 404);
 } else {
-
-    $action = Application::getInstance();
-    $action->get($routes[$path]['controller'])
-        ->handler($request, $routes[$path]['action'])
-    ;
-
+    $action = Application::getInstance()->get($routes[$path]['controller'])->handler($request, $routes[$path]['action']);
     $response = new Response($action);
 }
 

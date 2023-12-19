@@ -9,7 +9,7 @@ use App\Entities\User;
 class TaskRepository
 {
 
-    private $db;
+    private Db $db;
 
     public function __construct(Db $db)
     {
@@ -82,7 +82,7 @@ class TaskRepository
         return count($res);
     }
 
-    public function getData(string $sort = 'name', string $order = 'ASC', int $limit = 3, int $offset = 0): array
+    public function getData(string $sort = 'name', string $order = 'ASC', int $limit = 3, int $offset = 0): ?array
     {
         $sql = "SELECT * FROM tasks as t INNER JOIN users as u ON t.user_id = u.id ORDER BY $sort $order LIMIT :offset, :limit";
         $res = $this->db->query(

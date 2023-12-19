@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Containers\Container;
+
 /**
  * Singleton class
  *
@@ -9,7 +11,10 @@ namespace App;
 final class Application
 {
 
-    public static ?Container $inst = null;
+    /**
+     * @var Container|null
+     */
+    public static ?Container $instance = null;
 
     private function __clone(){
 
@@ -26,10 +31,10 @@ final class Application
      */
     public static function getInstance(): Container
     {
-        if ($this->nstance === null) {
-            $inst = App\Containers\Container();
+        if (!self::$instance instanceof Container && is_null(self::$instance)) {
+            self::$instance = new Container();
         }
-        return $inst;
+        return self::$instance;
     }
 
     /**
