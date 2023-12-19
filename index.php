@@ -2,6 +2,7 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
+use App\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -47,8 +48,8 @@ if (!isset($routes[$path])) {
     $response = new Response('Not Found', 404);
 } else {
 
-    $action = (new App\Containers\Container())
-        ->get($routes[$path]['controller'])
+    $action = Application::getInstance();
+    $action->get($routes[$path]['controller'])
         ->handler($request, $routes[$path]['action'])
     ;
 

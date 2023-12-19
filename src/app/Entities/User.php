@@ -16,7 +16,7 @@ class User
         return $this->id;
     }
 
-    function getName()
+    function getName(): string
     {
         return $this->name;
     }
@@ -35,7 +35,7 @@ class User
         return $this;
     }
 
-    function getEmail()
+    function getEmail(): string
     {
         return $this->email;
     }
@@ -47,7 +47,7 @@ class User
         return $this;
     }
 
-    function getRole()
+    function getRole(): string
     {
         return $this->role;
     }
