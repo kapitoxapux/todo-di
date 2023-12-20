@@ -14,10 +14,10 @@ final class Application
     /**
      * @var Container|null
      */
-    public static ?Container $instance = null;
+    private static ?Container $instance = null;
 
-    private function __clone(){
 
+    protected function __clone(){
     }
 
 //    private function __wakeup(){
@@ -38,7 +38,7 @@ final class Application
     }
 
     /**
-     * Private ctor so nobody else can instantiate it
+     * Private, so nobody else can instantiate it
      *
      */
     private function __construct()
