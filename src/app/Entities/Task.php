@@ -11,12 +11,12 @@ class Task
     public int $status;
     public int $changed;
 
-    function getId()
+    function getId(): int
     {
         return $this->id;
     }
 
-    function getUserId()
+    function getUserId(): string
     {
         return $this->user_id;
     }
@@ -28,7 +28,7 @@ class Task
         return $this;
     }
 
-    function getText()
+    function getText(): string
     {
         return $this->text;
     }
@@ -40,7 +40,7 @@ class Task
         return $this;
     }
 
-    function getStatus()
+    function getStatus(): int
     {
         return $this->status;
     }
@@ -52,7 +52,7 @@ class Task
         return $this;
     }
 
-    function getChanged()
+    function getChanged(): int
     {
         return $this->changed;
     }

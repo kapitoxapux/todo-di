@@ -8,7 +8,7 @@ use App\Entities\User;
 class UserRepository
 {
 
-    private $db;
+    private Db $db;
 
     public function __construct(Db $db)
     {

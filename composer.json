@@ -25,6 +25,7 @@
     ],
     "require": {
         "symfony/routing": "^4.4",
-        "twig/twig": "^2.0"
+        "twig/twig": "^2.0",
+        "ext-pdo": "*"
     }
 }
